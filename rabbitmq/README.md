@@ -6,11 +6,11 @@
 ```bash
 $ docker-compose up -d 
 ```
-**2) Execute o comando abaixo e informe S para dizer ao script que este NÓ será o MASTER.**
+**2) Execute o comando abaixo e digite S para dizer ao script que este NÓ será o MASTER.**
 ```bash
 $ docker exec -it rabbitmq-master /usr/local/bin/configure-cluster.sh
 ```
-**3) Execute os comandos abaixo e informe N para dizer ao script que os NÓs serão os MIRRORS.**
+**3) Execute os comandos abaixo e digite N para dizer ao script que os NÓs serão os MIRRORS.**
 ```bash
 $ docker exec -it rabbitmq-mirror1  /usr/local/bin/configure-cluster.sh
 $ docker exec -it rabbitmq-mirror2  /usr/local/bin/configure-cluster.sh
