@@ -2,7 +2,7 @@
 
 **Execute os seguintes comandos para configurar o cluster:**
 
-**1) Cria três nós do RabbitMQ.**
+**1) Cria três instâncias do RabbitMQ.**
 ```bash
 $ docker-compose up -d 
 ```
