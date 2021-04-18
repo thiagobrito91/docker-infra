@@ -1,0 +1,66 @@
+version: '3.9'
+
+services:
+
+    rabbitmq-master:
+        container_name: rabbitmq-master
+        image: rabbitmq:3-management
+        hostname: rabbitmq-master
+        environment:
+            RABBITMQ_ERLANG_COOKIE: MY_SECURITY_COOKIE_HASH_IS_THIS_TEXT
+            RABBITMQ_DEFAULT_USER: guest
+            RABBITMQ_DEFAULT_PASS: guest
+            RABBITMQ_DEFAULT_VHOST: /
+        volumes:
+            #- ./.erlang.cookie:/var/lib/rabbitmq/mnesia/.erlang.cookie
+            #- ./storage/rabbitmq-master:/var/lib/rabbitmq
+            - ./configure-cluster.sh:/usr/local/bin/configure-cluster.sh
+        ports:
+            - 5673:5672
+            - 15673:15672
+        networks:
+            - cluster-network
+        
+    rabbitmq-slave1:
+        container_name: rabbitmq-slave1
+        image: rabbitmq:3-management
+        hostname: rabbitmq-slave1
+        environment:
+            RABBITMQ_ERLANG_COOKIE: MY_SECURITY_COOKIE_HASH_IS_THIS_TEXT
+        volumes:
+            #- ./.erlang.cookie:/var/lib/rabbitmq/mnesia/.erlang.cookie
+            - ./configure-cluster.sh:/usr/local/bin/configure-cluster.sh
+        ports:
+            - 5674:5672
+            - 15674:15672
+        depends_on: 
+            - rabbitmq-master
+        networks:
+            - cluster-network
+
+    rabbitmq-slave2:
+        container_name: rabbitmq-slave2
+        image: rabbitmq:3-management
+        hostname: rabbitmq-slave2
+        environment:
+            RABBITMQ_ERLANG_COOKIE: MY_SECURITY_COOKIE_HASH_IS_THIS_TEXT
+        volumes:
+            #- ./.erlang.cookie:/var/lib/rabbitmq/mnesia/.erlang.cookie
+            - ./configure-cluster.sh:/usr/local/bin/configure-cluster.sh
+        ports:
+            - 5675:5672
+            - 15675:15672
+        depends_on: 
+            - rabbitmq-master
+            - rabbitmq-slave1
+        networks:
+            - cluster-network
+
+networks:
+    cluster-network:
+        driver: bridge
+
+
+#docker exec -it rabbitmq-master /usr/local/bin/configure-cluster.sh
+#docker exec -it rabbitmq-slave1 /usr/local/bin/configure-cluster.sh
+#docker exec -it rabbitmq-slave2 /usr/local/bin/configure-cluster.sh
