@@ -16,4 +16,4 @@ $ docker exec -it rabbitmq-mirror1  /usr/local/bin/configure-cluster.sh
 $ docker exec -it rabbitmq-mirror2  /usr/local/bin/configure-cluster.sh
 ```
 
-**Feito isso o CLUSTER do RabbitMQ estará em execução e com resiliência. Caso o NÓ MASTER fique indisponível um dos MIRROs será eleito como NÓ MASTER, garantindo a Alta Disponibildiade do CLUSTER.**
+**Feito isso o CLUSTER do RabbitMQ estará em execução e com resiliência. Caso o NÓ MASTER fique indisponível um dos MIRRORs será eleito como NÓ MASTER, garantindo a Alta Disponibildiade do CLUSTER.**
