@@ -1,0 +1,90 @@
+version: '3.9'
+
+services:
+
+    redis-1:
+        container_name: redis-1
+        hostname: redis-1
+        image: redis
+        command: redis-server /usr/local/etc/redis/redis.conf
+        volumes: 
+            - ./confs/redis-1.conf:/usr/local/etc/redis/redis.conf
+        ports: 
+            - 7001:7001
+        networks:
+           - cluster-network
+        
+    redis-2:
+        container_name: redis-2
+        hostname: redis-2
+        image: redis
+        command: redis-server /usr/local/etc/redis/redis.conf
+        volumes: 
+            - ./confs/redis-2.conf:/usr/local/etc/redis/redis.conf
+        ports: 
+            - 7002:7002
+        depends_on: 
+            - redis-1
+        networks:
+            - cluster-network
+
+    redis-3:
+        container_name: redis-3
+        hostname: redis-3
+        image: redis
+        command: redis-server /usr/local/etc/redis/redis.conf
+        volumes: 
+            - ./confs/redis-3.conf:/usr/local/etc/redis/redis.conf
+        ports: 
+            - 7003:7003
+        depends_on: 
+            - redis-2
+        networks:
+            - cluster-network
+
+    redis-4:
+        container_name: redis-4
+        hostname: redis-4
+        image: redis
+        command: redis-server /usr/local/etc/redis/redis.conf
+        volumes: 
+            - ./confs/redis-4.conf:/usr/local/etc/redis/redis.conf
+        ports: 
+            - 7004:7004
+        depends_on: 
+            - redis-3
+        networks:
+            - cluster-network
+
+    redis-5:
+        container_name: redis-5
+        hostname: redis-5
+        image: redis
+        command: redis-server /usr/local/etc/redis/redis.conf
+        volumes: 
+            - ./confs/redis-5.conf:/usr/local/etc/redis/redis.conf
+        ports: 
+            - 7005:7005
+        depends_on: 
+            - redis-4
+        networks:
+            - cluster-network
+
+    redis-6:
+        container_name: redis-6
+        hostname: redis-6
+        image: redis
+        command: redis-server /usr/local/etc/redis/redis.conf
+        volumes: 
+            - ./confs/redis-6.conf:/usr/local/etc/redis/redis.conf
+        ports: 
+            - 7006:7006
+        depends_on: 
+            - redis-5
+        networks:
+            - cluster-network
+
+networks:
+    cluster-network:
+        driver: bridge
+    
