@@ -21,10 +21,10 @@ services:
         networks:
             - cluster-network
         
-    rabbitmq-slave1:
-        container_name: rabbitmq-slave1
+    rabbitmq-mirror1:
+        container_name: rabbitmq-mirror1
         image: rabbitmq:3-management
-        hostname: rabbitmq-slave1
+        hostname: rabbitmq-mirror1
         environment:
             RABBITMQ_ERLANG_COOKIE: MY_SECURITY_COOKIE_HASH_IS_THIS_TEXT
         volumes:
@@ -38,10 +38,10 @@ services:
         networks:
             - cluster-network
 
-    rabbitmq-slave2:
-        container_name: rabbitmq-slave2
+    rabbitmq-mirror2:
+        container_name: rabbitmq-mirror2
         image: rabbitmq:3-management
-        hostname: rabbitmq-slave2
+        hostname: rabbitmq-mirror2
         environment:
             RABBITMQ_ERLANG_COOKIE: MY_SECURITY_COOKIE_HASH_IS_THIS_TEXT
         volumes:
@@ -52,15 +52,10 @@ services:
             - 15675:15672
         depends_on: 
             - rabbitmq-master
-            - rabbitmq-slave1
+            - rabbitmq-mirror1
         networks:
             - cluster-network
 
 networks:
     cluster-network:
         driver: bridge
-
-
-#docker exec -it rabbitmq-master /usr/local/bin/configure-cluster.sh
-#docker exec -it rabbitmq-slave1 /usr/local/bin/configure-cluster.sh
-#docker exec -it rabbitmq-slave2 /usr/local/bin/configure-cluster.sh
