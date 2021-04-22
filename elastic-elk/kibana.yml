@@ -1,0 +1,10 @@
+server.name: apm-kibana
+server.host: "0"
+server.ssl.enabled: true
+server.ssl.certificate: /usr/share/kibana/config/certs/apm-kibana/apm-kibana.crt
+server.ssl.key: /usr/share/kibana/config/certs/apm-kibana/apm-kibana.key
+elasticsearch.hosts: [ "https://elasticsearch:9200" ]
+elasticsearch.username: elastic
+elasticsearch.password: x5mo7SlG07Lye1yi6N6o
+elasticsearch.ssl.certificateAuthorities: [ "/usr/share/kibana/config/certs/ca/ca.crt" ]
+xpack.encryptedSavedObjects.encryptionKey: "xgZqtYjErnCR3YxywG33SPz44r38K4QSQAxQ9AsXTqbAZB7XNes3MXSjg96U"

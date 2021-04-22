@@ -1,0 +1,112 @@
+version: '3.7'
+
+services:
+  apm-elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: apm-elasticsearch
+    restart: unless-stopped
+    ports:
+      - 9200:9200
+      - 9300:9300
+    volumes:
+      - ./elasticsearch_data:/usr/share/elasticsearch/data
+      - ./elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml
+      - ./certs:/usr/share/elasticsearch/config/certificates
+    environment:
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+    networks:
+      - elknetwork
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "5"
+            max-size: "10m"
+
+  apm-kibana:
+    image: docker.elastic.co/kibana/kibana:7.11.1
+    container_name: apm-kibana
+    restart: unless-stopped
+    environment:
+      - SERVER_HOST=0.0.0.0
+    volumes:
+      - ./kibana.yml:/usr/share/kibana/config/kibana.yml
+      - ./certs:/usr/share/kibana/config/certs
+    ports:
+      - 5601:5601
+    links:
+      - apm-elasticsearch:elasticsearch
+    depends_on:
+      - apm-elasticsearch
+    networks:
+      - elknetwork
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "5"
+            max-size: "10m"
+
+  apm-server:
+    image: docker.elastic.co/apm/apm-server:7.11.1
+    container_name: apm-server
+    restart: unless-stopped
+    ports:
+      - 8200:8200
+    command: [
+         "apm-server",
+         "-e",
+         "-E", "output.elasticsearch.username=elastic",
+         "-E", "output.elasticsearch.password=x5mo7SlG07Lye1yi6N6o",
+         "-E", "apm-server.kibana.username=apm_system",
+         "-E", "apm-server.kibana.password=XtKYoYVhRJGKKD9NyU6x"
+    ]
+    environment:
+      - apm-server.host="0.0.0.0:8200"
+      - apm-server.secret_token="K6yf2WHSSSaffFXudX2tcU4qgJE5XnxTDM4RtsHhKtDVEVgKBa8hc89KpXbC"
+      - setup.template.enabled=true
+      - logging.to_files=false
+    volumes:
+      - ./apm-server.yml:/usr/share/apm-server/apm-server.yml
+      - ./certs:/usr/share/apm-server/certs
+    links:
+      - apm-elasticsearch:elasticsearch
+      - apm-kibana:kibana
+    depends_on:
+      - apm-elasticsearch
+      - apm-kibana
+    networks:
+      - elknetwork
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "5"
+            max-size: "10m"
+
+  apm-logstash:
+    image: logstash:7.11.1
+    container_name: apm-logstash
+    restart: unless-stopped
+    ports:
+      - 9600:9600
+      - 8089:8089
+      - 8080:8080
+      - 5044:5044
+      - 5000:5000
+    volumes:
+      - ./logstash:/usr/share/logstash/pipeline
+      - ./logstash.yml:/usr/share/logstash/config/logstash.yml
+      - ./certs:/etc/logstash/certs
+    links:
+      - apm-elasticsearch:elasticsearch
+    depends_on:
+      - apm-elasticsearch
+    networks:
+      - elknetwork
+    logging:
+        driver: "json-file"
+        options:
+            max-file: "5"
+            max-size: "10m"
+
+networks:
+    elknetwork:
+        driver: bridge
