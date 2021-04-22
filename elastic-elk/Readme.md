@@ -38,3 +38,5 @@ password => "{elasticsearch user password}"
 docker-compose down
 docker-compose up -d
 ```
+
+Baseado em: https://github.com/SabriArslan/elastic-apm/tree/2127a5b3c8bf81270b104c4c7460133df8fb0604
