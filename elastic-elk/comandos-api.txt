@@ -1,0 +1,25 @@
+POST /_security/api_key
+{
+  "name": "e-shop",
+  "expiration": "100d",
+   "role_descriptors": { 
+    "role-a": {
+      "cluster": ["all"],
+      "index": [
+        {
+          "names": ["*"],
+          "privileges": ["all"]
+        }
+      ]
+    },
+    "role-b": {
+      "cluster": ["all"],
+      "index": [
+        {
+          "names": ["*"],
+          "privileges": ["all"]
+        }
+      ]
+    }
+  }
+}
