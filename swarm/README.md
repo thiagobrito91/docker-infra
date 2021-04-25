@@ -19,3 +19,7 @@ Sunbindo cluster Docker Swarm.
     $ sudo apt install docker-ce
     $ sudo systemctl status docker
     ```
+5. Inicializando cluster Docker Swarm:
+     ```bash
+    $ docker swarm init --advertise-addr <ip>  
+    ```
