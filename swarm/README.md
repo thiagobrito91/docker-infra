@@ -21,13 +21,12 @@ Sunbindo cluster Docker Swarm.
     ```
 5. Inicializando cluster Docker Swarm:
 
-    5.1 Execute o comando abaixo no nó Master:
-    
-        ```bash
+     Execute o comando abaixo no nó Master:
+	 
         $ docker swarm init --advertise-addr <ip>  
-        ```
-
-        Ao executar o comando acima o seguinte comando será gerado:
-        ```bash
+     
+Ao executar o comando acima o seguinte comando será gerado:
+        
+      
         $ docker swarm join --token SWMTKN-1-4ajme3361xd4d7d4mf7jae8g6y2hk37zsl5f401bdcx2oj9prd-729bi93pffqqcxxtnfjn29tcp 172.17.216.74:2377
-        ```
+        
