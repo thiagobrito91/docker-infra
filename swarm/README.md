@@ -8,7 +8,7 @@ Sunbindo cluster Docker Swarm.
      ```bash
      $ sudo apt update
      ```
-4. Instale o docker: 
+4. Instale o docker em cada instancia do linux: 
     ```bash
     $ sudo apt update
     $ sudo apt install apt-transport-https ca-certificates curl software-properties-common
