@@ -27,3 +27,5 @@ Sunbindo cluster Docker Swarm.
         
         $ docker swarm join --token [TOKEN] [IP_NODE_MASTER]
         
+7. Execute o comando abaixo no nós master para visualizar os nós do cluster:
+        $ docker node ls
