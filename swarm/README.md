@@ -19,14 +19,11 @@ Sunbindo cluster Docker Swarm.
     $ sudo apt install docker-ce
     $ sudo systemctl status docker
     ```
-5. Inicializando cluster Docker Swarm:
-
-     Execute o comando abaixo no nó Master:
+5. Inicializando cluster Docker Swarm. Execute o comando abaixo no nó Master:
 	 
         $ docker swarm init --advertise-addr <ip>  
      
-Ao executar o comando acima o seguinte comando será gerado:
+6. Copie o comando gerado e cole nas instâncias do linux que serão espelhos:
         
-      
-        $ docker swarm join --token SWMTKN-1-4ajme3361xd4d7d4mf7jae8g6y2hk37zsl5f401bdcx2oj9prd-729bi93pffqqcxxtnfjn29tcp 172.17.216.74:2377
+        $ docker swarm join --token [TOKEN] [IP_NODE_MASTER]
         
