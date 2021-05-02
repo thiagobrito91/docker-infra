@@ -1,0 +1,34 @@
+version: '3.9'
+
+services: 
+    
+    grafana:
+        container_name: 'grafana'
+        image: grafana/grafana:latest
+        environment: 
+            GF_INSTALL_PLUGINS:  'grafana-clock-panel,grafana-simple-json-datasource'
+        volumes:
+            - grafana-data:/var/lib/grafana
+        ports: 
+            - 3000:3000
+    
+    influxdb:
+        container_name: influxdb
+        image: influxdb
+        volumes: 
+            - ./influx:/var/lib/influxdb
+        ports: 
+            - 8086:8086
+
+    #docker run --rm telegraf --net localnet telegraf config > telegraf.conf 
+    #docker run -v D:\SQL\telegraf.conf:/etc/telegraf/telegraf.conf:ro --name=telegraf --net localnet telegraf
+    telegraf:
+        container_name: telegraf
+        image: telegraf
+        command: config > telegraf.conf
+        volumes: 
+            - ./telegraf:/etc/telegraf/telegraf.conf:ro
+
+volumes:
+    grafana-data:
+        external: false
